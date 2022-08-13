@@ -1,0 +1,11 @@
+.container {
+    position: relative;
+    max-width: 1130px;
+    margin: 150px auto;
+    padding: 0 10px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: solid red;
+}

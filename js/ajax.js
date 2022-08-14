@@ -1,13 +1,11 @@
-let table = document.querySelector('#buy')
-const xhr = new XMLHttpRequest()
-let response = xhr.response
-let prepared_data = []
+const xhrToBuyData = new XMLHttpRequest()
+const xhrToSellData = new XMLHttpRequest()
 
-xhr.onload = function() {
-  if (this.status === 200) {
-    response = xhr.response
-    prepared_data = []
-    
+function responseHandler(xhr, table) {
+  if (xhr.status === 200) {
+    let response = xhr.response
+    let prepared_data = []
+
     for (let offer = 0; offer < 20; offer++) {
       prepared_data[0] = response[offer]["member"]
       prepared_data[1] = response[offer]["payment_method"].slice(0, 50)
@@ -28,15 +26,24 @@ xhr.onload = function() {
 }
 
 setInterval(() => { 
-  xhr.open("GET", "https://garantex.io/api/v2/otc/ads?direction=buy&payment_method=тинь")
-  xhr.responseType = "json"
-  xhr.send()
-}, 2000);
+  xhrToSellData.open("GET", "https://garantex.io/api/v2/otc/ads?direction=sell&payment_method=тинь")
+  xhrToSellData.responseType = "json"
+  xhrToSellData.send()
+}, 3000);
+
+setInterval(() => {
+  xhrToBuyData.open("GET", "https://garantex.io/api/v2/otc/ads?direction=buy&payment_method=тинь")
+  xhrToBuyData.responseType = "json"
+  xhrToBuyData.send()
+}, 3000);
+
+xhrToBuyData.onload = () => { responseHandler(xhrToBuyData, document.querySelector("#buy")) }
+xhrToSellData.onload = () => { responseHandler(xhrToSellData, document.querySelector("#sell")) }
 
 function formatAmount(amount) {
-  let res = ''
+  let res = ""
 
-  amount = amount.split('')
+  amount = amount.split("")
   let numberOfAfterCommaSimbols = amount.length - amount.findIndex(el => el === ".")
   let digitsNum = 6 + numberOfAfterCommaSimbols
   amount = amount.join("")
@@ -49,4 +56,3 @@ function formatAmount(amount) {
 
   return res
 }
-

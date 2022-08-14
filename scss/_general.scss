@@ -9,3 +9,18 @@
     justify-content: space-between;
     border: solid red;
 }
+
+table {
+    td {
+        border: 1px solid black;
+        padding: 0.25rem;
+        &.max, &.price {
+            text-align: center;
+        }
+    }
+
+    .payment_method {
+        overflow: hidden;
+        text-overflow: hidden;
+    }
+}

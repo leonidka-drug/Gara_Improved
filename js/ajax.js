@@ -41,18 +41,21 @@ function responseHandler(xhr, table) {
 
 function formatAmount(amount) {
   let res = ""
-
-  amount = amount.split("")
-  let numberOfAfterCommaSimbols = amount.length - amount.findIndex(el => el === ".")
-  let digitsNum = 9 + numberOfAfterCommaSimbols
-  amount = amount.join("")
+  let digitsNum = 9 + 3
+  amount = parseFloat(amount).toFixed(2) + ""
 
   if (amount.length > digitsNum) {
-    res = `${amount.slice(0, amount.length - digitsNum)} ${amount.slice(amount.length - digitsNum, amount.length - digitsNum + 3)} ${amount.slice(amount.length - digitsNum + 3, amount.length - digitsNum + 6)} ${amount.slice(amount.length - digitsNum + 6, amount.length)}`
+    res = `${amount.slice(0, amount.length - digitsNum)} 
+      ${amount.slice(amount.length - digitsNum, amount.length - digitsNum + 3)} 
+      ${amount.slice(amount.length - digitsNum + 3, amount.length - digitsNum + 6)} 
+      ${amount.slice(amount.length - digitsNum + 6, amount.length)}`
   } else if (amount.length > (digitsNum -= 3)) {
-    res = `${amount.slice(0, amount.length - digitsNum)} ${amount.slice(amount.length - digitsNum, amount.length - digitsNum + 3)} ${amount.slice(amount.length - digitsNum + 3, amount.length)}`
+    res = `${amount.slice(0, amount.length - digitsNum)} 
+      ${amount.slice(amount.length - digitsNum, amount.length - digitsNum + 3)} 
+      ${amount.slice(amount.length - digitsNum + 3, amount.length)}`
   } else if (amount.length > (digitsNum -= 3)) {
-    res = `${amount.slice(0, amount.length - digitsNum)} ${amount.slice(amount.length - digitsNum, amount.length)}`
+    res = `${amount.slice(0, amount.length - digitsNum)} 
+      ${amount.slice(amount.length - digitsNum, amount.length)}`
   }
 
   return res

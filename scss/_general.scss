@@ -16,13 +16,32 @@ table {
     td {
         border: 1px solid black;
         padding: 0.25rem;
-        &.max, &.price {
+
+        &.max, &.price, &.number {
             text-align: center;
         }
-    }
 
-    .payment_method {
-        overflow: hidden;
-        text-overflow: hidden;
+        &.number {
+            width: 12px;
+        }
+
+        &.nick {
+            width: 150px;
+            overflow: hidden;
+        }
+
+        &.payment-method {
+            width: 500px;
+            overflow: hidden;
+            text-overflow: hidden;
+        }
+
+        &.price {
+            width: 60px;
+        }
+
+        &.max {
+            width: 150px;
+        }
     }
 }

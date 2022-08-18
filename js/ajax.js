@@ -18,8 +18,12 @@ setInterval(() => {
   highlight(document.querySelector("#sell"))
 }, 500)
 
-xhrToBuyData.onload = () => { responseHandler(xhrToBuyData, document.querySelector("#buy")) }
-xhrToSellData.onload = () => { responseHandler(xhrToSellData, document.querySelector("#sell")) }
+xhrToBuyData.onload = () => {
+  responseHandler(xhrToBuyData, document.querySelector("#buy"))
+}
+xhrToSellData.onload = () => {
+  responseHandler(xhrToSellData, document.querySelector("#sell"))
+}
 
 function responseHandler(xhr, table) {
   if (xhr.status === 200) {
@@ -27,12 +31,12 @@ function responseHandler(xhr, table) {
     let prepared_data = []
 
     for (let offer = 0; offer < 20; offer++) {
-      prepared_data[0] = response[offer]["member"]
-      prepared_data[1] = response[offer]["payment_method"].slice(0, 50)
-      prepared_data[2] = ((response[offer]["price"] - 1) * 100).toFixed(2) + " %"
-      prepared_data[3] = formatAmount(response[offer]["max"])
+      prepared_data[1] = response[offer]["member"]
+      prepared_data[2] = response[offer]["payment_method"].slice(0, 50)
+      prepared_data[3] = ((response[offer]["price"] - 1) * 100).toFixed(2) + " %"
+      prepared_data[4] = formatAmount(response[offer]["min"]) + " - " + formatAmount(response[offer]["max"])
 
-      for (let field = 0; field < 4; field++) {
+      for (let field = 1; field < 5; field++) {
         table.tBodies[0].rows[offer].cells[field].textContent = prepared_data[field]
       }
     }
@@ -56,6 +60,8 @@ function formatAmount(amount) {
   } else if (amount.length > (digitsNum -= 3)) {
     res = `${amount.slice(0, amount.length - digitsNum)} 
       ${amount.slice(amount.length - digitsNum, amount.length)}`
+  } else {
+    res = amount
   }
 
   return res
@@ -64,7 +70,7 @@ function formatAmount(amount) {
 function highlight(table) {
   for (let offer = 0; offer < 20; offer++) {
     const row = table.tBodies[0].rows[offer]
-    const nick = row.cells[0].textContent
+    const nick = row.cells[1].textContent
 
     if (nick == "FastCoin") {
       row.style.backgroundColor = "yellow"

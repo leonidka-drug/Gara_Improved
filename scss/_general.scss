@@ -69,7 +69,12 @@ table {
         }
 
         &.max {
-            width: 150px;
+            text-align: end;
+            width: 110px;
+        }
+        &.min {
+            text-align: end;
+            width: 80px;
         }
     }
 }

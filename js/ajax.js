@@ -34,9 +34,10 @@ function responseHandler(xhr, table) {
       prepared_data[1] = response[offer]["member"]
       prepared_data[2] = response[offer]["payment_method"].slice(0, 50)
       prepared_data[3] = ((response[offer]["price"] - 1) * 100).toFixed(2) + " %"
-      prepared_data[4] = formatAmount(response[offer]["min"]) + " - " + formatAmount(response[offer]["max"])
+      prepared_data[4] = formatAmount(response[offer]["min"])
+      prepared_data[5] = formatAmount(response[offer]["max"])
 
-      for (let field = 1; field < 5; field++) {
+      for (let field = 1; field < 6; field++) {
         table.tBodies[0].rows[offer].cells[field].textContent = prepared_data[field]
       }
     }

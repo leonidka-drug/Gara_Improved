@@ -2,13 +2,13 @@ const xhrToBuyData = new XMLHttpRequest()
 const xhrToSellData = new XMLHttpRequest()
 
 setInterval(() => { 
-  xhrToSellData.open("GET", "https://garantex.io/api/v2/otc/ads?direction=sell&payment_method=тинь")
+  xhrToSellData.open("GET", `https://garantex.io/api/v2/otc/ads?direction=sell&payment_method=${getPaymentMethod()}`)
   xhrToSellData.responseType = "json"
   xhrToSellData.send()
 }, 4100);
 
 setInterval(() => {
-  xhrToBuyData.open("GET", "https://garantex.io/api/v2/otc/ads?direction=buy&payment_method=тинь")
+  xhrToBuyData.open("GET", `https://garantex.io/api/v2/otc/ads?direction=buy&payment_method=${getPaymentMethod()}`)
   xhrToBuyData.responseType = "json"
   xhrToBuyData.send()
 }, 4100);
@@ -27,10 +27,10 @@ xhrToSellData.onload = () => {
 
 function responseHandler(xhr, table) {
   if (xhr.status === 200) {
-    let response = xhr.response
+    const response = xhr.response
     let prepared_data = []
 
-    for (let offer = 0; offer < 20; offer++) {
+    for (let offer = 0; offer < (response.length < 20 ? response.length : 20); offer++) {
       prepared_data[1] = response[offer]["member"]
       prepared_data[2] = response[offer]["payment_method"].slice(0, 50)
       prepared_data[3] = ((response[offer]["price"] - 1) * 100).toFixed(2) + " %"
@@ -70,11 +70,16 @@ function formatAmount(amount) {
 function highlight(table) {
   for (let offer = 0; offer < 20; offer++) {
     const row = table.tBodies[0].rows[offer]
-    const nick = row.cells[1].textContent
+    const eachNickname = row.cells[1].textContent
+    const mainNickname = document.querySelector("#main-highlight").value
+    const anyNickname1 = document.querySelector("#highlight-2").value
+    const anyNickname2 = document.querySelector("#highlight-3").value
 
-    if (nick == "FastCoin") {
+    if (eachNickname === "") {
+      row.style.backgroundColor = ""
+    } else if (eachNickname == mainNickname) {
       row.style.backgroundColor = "yellow"
-    } else if (nick == "Piu" || nick == "Olegblatnov") {
+    } else if (eachNickname == anyNickname1 || eachNickname == anyNickname2) {
       row.style.backgroundColor = "#b9e8d9"
     } else {
       row.style.backgroundColor = ""
@@ -82,3 +87,15 @@ function highlight(table) {
   }
 }
 
+function getPaymentMethod() {
+  let pattern = ""
+  const inputText = document.querySelector("#payment").value
+
+  if (inputText === "") {
+    pattern = "тинь"
+  } else {
+    pattern = inputText
+  }
+
+  return pattern
+}

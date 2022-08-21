@@ -1,13 +1,40 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: 500;
+}
+
 .container {
     position: relative;
     max-width: 1130px;
-    margin: 20px auto;
+    margin: 10px auto;
     padding: 0 10px;
+    // background-color: rgba(163, 191, 192, 0.548);
     
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: solid red;
+}
+
+input {
+    display: inline-block;
+    width: 200px;
+    height: 30px;
+    margin: 10px 5px;
+    border: solid 2px black;
+    border-radius: 5px;
+    text-align: center;
+
+    &::placeholder {
+        padding: 2px 8px;
+    }
+}
+
+.table_header {
+    margin: 5px;
 }
 
 table {
@@ -15,6 +42,7 @@ table {
 
     td {
         border: 1px solid black;
+        border-radius: 3px;
         padding: 0.25rem;
 
         &.max, &.price, &.number {

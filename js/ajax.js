@@ -13,11 +13,6 @@ setInterval(() => {
   xhrToBuyData.send()
 }, 4100);
 
-setInterval(() => {
-  highlight(document.querySelector("#buy"))
-  highlight(document.querySelector("#sell"))
-}, 500)
-
 xhrToBuyData.onload = () => {
   responseHandler(xhrToBuyData, document.querySelector("#buy"))
 }
@@ -29,8 +24,11 @@ function responseHandler(xhr, table) {
   if (xhr.status === 200) {
     const response = xhr.response
     let prepared_data = []
+    const offsetMultiplier = parseInt(document.querySelector(".active").textContent) - 1
 
-    for (let offer = 0; offer < (response.length < 20 ? response.length : 20); offer++) {
+    for (let offerIndex = 0; offerIndex < (response.length < 20 ? response.length : 20); offerIndex++) {
+      offset = offsetMultiplier * 20
+      offer = offerIndex + offset
       prepared_data[1] = response[offer]["member"]
       prepared_data[2] = response[offer]["payment_method"].slice(0, 50)
       prepared_data[3] = ((response[offer]["price"] - 1) * 100).toFixed(2) + " %"
@@ -38,7 +36,7 @@ function responseHandler(xhr, table) {
       prepared_data[5] = formatAmount(response[offer]["max"])
 
       for (let field = 1; field < 6; field++) {
-        table.tBodies[0].rows[offer].cells[field].textContent = prepared_data[field]
+        table.tBodies[0].rows[offerIndex].cells[field].textContent = prepared_data[field]
       }
     }
   }
@@ -66,26 +64,6 @@ function formatAmount(amount) {
   }
 
   return res
-}
-
-function highlight(table) {
-  for (let offer = 0; offer < 20; offer++) {
-    const row = table.tBodies[0].rows[offer]
-    const eachNickname = row.cells[1].textContent
-    const mainNickname = document.querySelector("#main-highlight").value
-    const anyNickname1 = document.querySelector("#highlight-2").value
-    const anyNickname2 = document.querySelector("#highlight-3").value
-
-    if (eachNickname === "") {
-      row.style.backgroundColor = ""
-    } else if (eachNickname == mainNickname) {
-      row.style.backgroundColor = "yellow"
-    } else if (eachNickname == anyNickname1 || eachNickname == anyNickname2) {
-      row.style.backgroundColor = "#b9e8d9"
-    } else {
-      row.style.backgroundColor = ""
-    }
-  }
 }
 
 function getPaymentMethod() {

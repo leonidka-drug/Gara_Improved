@@ -24,7 +24,7 @@ input {
     width: 200px;
     height: 30px;
     margin: 10px 5px;
-    border: solid 2px black;
+    border: solid 2px rgb(230, 219, 219);
     border-radius: 5px;
     text-align: center;
 
@@ -37,11 +37,48 @@ input {
     margin: 5px;
 }
 
+.pagination {
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 105px;
+    height: 35px;
+    border: solid 1px rgb(230, 219, 219);
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+
+    .page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-right: solid 1px rgb(230, 219, 219);
+        width: 35px;
+        height: 35px;
+        transition: background-color ease 0.25s;
+
+        &:hover {
+            background-color: rgba(122, 180, 255, 0.4);
+            cursor: pointer;
+            transition: background-color ease 0.4s;
+        }
+    }
+
+    .page_3 {
+        border-right: 0;
+    }
+
+    .active {
+        background-color: rgb(90, 157, 244);
+        color: white;
+    }
+}
+
 table {
     margin: 5px;
 
     td {
-        border: 1px solid black;
+        border: 1px solid rgb(230, 219, 219);
         border-radius: 3px;
         padding: 0.25rem;
 
